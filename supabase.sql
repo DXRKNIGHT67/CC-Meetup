@@ -22,3 +22,14 @@ revoke all on table public.registrations from anon, authenticated;
 revoke all on table public.settings from anon, authenticated;
 grant all on table public.registrations to service_role;
 grant all on table public.settings to service_role;
+
+create table if not exists public.chat_messages (
+  id bigint generated always as identity primary key,
+  name text not null check (char_length(name) between 2 and 30),
+  message text not null check (char_length(message) between 1 and 300),
+  created_at timestamptz not null default now()
+);
+
+alter table public.chat_messages enable row level security;
+revoke all on table public.chat_messages from anon, authenticated;
+grant all on table public.chat_messages to service_role;

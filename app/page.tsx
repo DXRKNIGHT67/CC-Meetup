@@ -81,6 +81,7 @@ export default function Home() {
             {registered ? "Registered ✓" : "Register"}
           </button>
           <button className="btn btn-secondary" onClick={openCode}>Code</button>
+          <button className="btn btn-secondary" onClick={() => router.push("/chat")}>Chat</button>
         </div>
       </section>
       <button className="secret-admin" aria-label="Admin access" onClick={() => { setModal("login"); setMessage(""); }} />

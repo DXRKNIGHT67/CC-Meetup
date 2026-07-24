@@ -17,3 +17,7 @@ Important: use `DXRKN!GHT` for `ADMIN_USERNAME`, but choose a new stronger passw
 
 ## Database
 Run `supabase.sql` inside your Supabase project's SQL Editor.
+
+## Chat update
+
+The public Chat button opens `/chat`. Messages are stored in the `chat_messages` Supabase table and refreshed every two seconds. Run the newest `supabase.sql` after updating the project.
