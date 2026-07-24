@@ -21,3 +21,5 @@ Run `supabase.sql` in Supabase SQL Editor. Existing tables are preserved because
 
 ## Suggestions
 Visitors can privately send suggestions from `/suggestions`. Only authenticated admins can view or delete them in the Suggestions tab.
+
+- private support ticket submission and admin ticket management

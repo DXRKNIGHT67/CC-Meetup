@@ -6,13 +6,15 @@ import { useRouter } from "next/navigation";
 type Registration = { id:number; name:string; created_at:string };
 type Announcement = { id:number; title:string; message:string; created_at:string };
 type Suggestion = { id:number; name:string; suggestion:string; created_at:string };
+type Ticket = { id:number; name:string; subject:string; details:string; status:"open"|"resolved"; created_at:string };
 
 export default function AdminPage() {
   const router = useRouter();
-  const [tab,setTab] = useState<"people"|"code"|"announcements"|"suggestions">("people");
+  const [tab,setTab] = useState<"people"|"code"|"announcements"|"suggestions"|"tickets">("people");
   const [registrations,setRegistrations] = useState<Registration[]>([]);
   const [announcements,setAnnouncements] = useState<Announcement[]>([]);
   const [suggestions,setSuggestions] = useState<Suggestion[]>([]);
+  const [tickets,setTickets] = useState<Ticket[]>([]);
   const [code,setCode] = useState("");
   const [title,setTitle] = useState("");
   const [announcement,setAnnouncement] = useState("");
@@ -23,17 +25,20 @@ export default function AdminPage() {
     if (response.status === 401) return router.replace("/");
     const data = await response.json();
     setRegistrations(data.registrations || []);
-    const [codeResponse, announcementResponse, suggestionResponse] = await Promise.all([
+    const [codeResponse, announcementResponse, suggestionResponse, ticketResponse] = await Promise.all([
       fetch("/api/code", { cache:"no-store" }),
       fetch("/api/admin/announcements", { cache:"no-store" }),
-      fetch("/api/admin/suggestions", { cache:"no-store" })
+      fetch("/api/admin/suggestions", { cache:"no-store" }),
+      fetch("/api/admin/tickets", { cache:"no-store" })
     ]);
     const codeData = await codeResponse.json();
     const announcementData = await announcementResponse.json();
     const suggestionData = await suggestionResponse.json();
+    const ticketData = await ticketResponse.json();
     setCode(codeData.code || "");
     setAnnouncements(announcementData.announcements || []);
     setSuggestions(suggestionData.suggestions || []);
+    setTickets(ticketData.tickets || []);
   }
   useEffect(()=>{ load(); },[]);
 
@@ -62,14 +67,23 @@ export default function AdminPage() {
     const response = await fetch("/api/admin/suggestions", { method:"DELETE", headers:{"Content-Type":"application/json"}, body:JSON.stringify({id}) });
     if (response.ok) setSuggestions(items=>items.filter(item=>item.id!==id));
   }
+  async function updateTicket(id:number,status:"open"|"resolved") {
+    const response = await fetch("/api/admin/tickets", { method:"PUT", headers:{"Content-Type":"application/json"}, body:JSON.stringify({id,status}) });
+    if (response.ok) setTickets(items=>items.map(item=>item.id===id?{...item,status}:item));
+  }
+  async function deleteTicket(id:number) {
+    const response = await fetch("/api/admin/tickets", { method:"DELETE", headers:{"Content-Type":"application/json"}, body:JSON.stringify({id}) });
+    if (response.ok) setTickets(items=>items.filter(item=>item.id!==id));
+  }
   async function logout() { await fetch("/api/admin/logout", { method:"POST" }); router.replace("/"); }
 
   return <main className="admin-shell"><div className="admin-wrap">
     <div className="admin-top"><div><p className="subtitle">Private dashboard</p><h1>CC Admin</h1></div><button className="btn btn-secondary" style={{width:"auto"}} onClick={logout}>Log out</button></div>
-    <div className="tabs"><button className={`tab ${tab==="people"?"active":""}`} onClick={()=>{setTab("people");setMessage("")}}>Registered</button><button className={`tab ${tab==="code"?"active":""}`} onClick={()=>{setTab("code");setMessage("")}}>Code</button><button className={`tab ${tab==="announcements"?"active":""}`} onClick={()=>{setTab("announcements");setMessage("")}}>Announcements</button><button className={`tab ${tab==="suggestions"?"active":""}`} onClick={()=>{setTab("suggestions");setMessage("")}}>Suggestions</button></div>
+    <div className="tabs"><button className={`tab ${tab==="people"?"active":""}`} onClick={()=>{setTab("people");setMessage("")}}>Registered</button><button className={`tab ${tab==="code"?"active":""}`} onClick={()=>{setTab("code");setMessage("")}}>Code</button><button className={`tab ${tab==="announcements"?"active":""}`} onClick={()=>{setTab("announcements");setMessage("")}}>Announcements</button><button className={`tab ${tab==="suggestions"?"active":""}`} onClick={()=>{setTab("suggestions");setMessage("")}}>Suggestions</button><button className={`tab ${tab==="tickets"?"active":""}`} onClick={()=>{setTab("tickets");setMessage("")}}>Tickets</button></div>
     {tab === "people" ? <section className="admin-panel"><div className="panel-head"><strong>Registered people</strong><span>{registrations.length}</span></div>{registrations.length===0?<div className="empty">Nobody has registered yet.</div>:registrations.map(person=><div className="name-row" key={person.id}><div className="name-meta"><strong>{person.name}</strong><small>{new Date(person.created_at).toLocaleString()}</small></div><button className="icon-delete" aria-label={`Remove ${person.name}`} onClick={()=>remove(person.id)}>×</button></div>)}</section>
     : tab === "code" ? <section className="admin-panel"><div className="panel-head"><strong>Public meetup code</strong></div><div className="code-editor"><div className="field"><label htmlFor="code">Code shown to everyone</label><input id="code" value={code} onChange={e=>setCode(e.target.value)} maxLength={80} /></div><button className="btn btn-primary" style={{maxWidth:220}} onClick={saveCode}>Save code</button>{message&&<p className={message==="Code updated."?"success":"error"} style={{marginTop:14}}>{message}</p>}</div></section>
     : tab === "announcements" ? <section className="admin-panel"><div className="panel-head"><strong>Post an announcement</strong><span>{announcements.length}</span></div><form className="announcement-form" onSubmit={postAnnouncement}><div className="field"><label htmlFor="announcement-title">Title</label><input id="announcement-title" value={title} onChange={e=>setTitle(e.target.value)} maxLength={80} required /></div><div className="field"><label htmlFor="announcement-message">Message</label><textarea id="announcement-message" value={announcement} onChange={e=>setAnnouncement(e.target.value)} maxLength={1000} required /></div><button className="btn btn-primary" style={{maxWidth:220}}>Post announcement</button>{message&&<p className={message==="Announcement posted."?"success":"error"}>{message}</p>}</form><div className="announcement-list">{announcements.length===0?<div className="empty">No announcements posted yet.</div>:announcements.map(item=><article className="announcement-card admin-announcement" key={item.id}><div className="announcement-head"><div><strong>{item.title}</strong><small>{new Date(item.created_at).toLocaleString()}</small></div><button className="icon-delete" aria-label={`Delete ${item.title}`} onClick={()=>deleteAnnouncement(item.id)}>×</button></div><p>{item.message}</p></article>)}</div></section>
-    : <section className="admin-panel"><div className="panel-head"><strong>Private suggestions</strong><span>{suggestions.length}</span></div>{suggestions.length===0?<div className="empty">No suggestions have been sent yet.</div>:suggestions.map(item=><article className="suggestion-card" key={item.id}><div className="announcement-head"><div><strong>{item.name}</strong><small>{new Date(item.created_at).toLocaleString()}</small></div><button className="icon-delete" aria-label={`Delete suggestion from ${item.name}`} onClick={()=>deleteSuggestion(item.id)}>×</button></div><p>{item.suggestion}</p></article>)}</section>}
+    : tab === "suggestions" ? <section className="admin-panel"><div className="panel-head"><strong>Private suggestions</strong><span>{suggestions.length}</span></div>{suggestions.length===0?<div className="empty">No suggestions have been sent yet.</div>:suggestions.map(item=><article className="suggestion-card" key={item.id}><div className="announcement-head"><div><strong>{item.name}</strong><small>{new Date(item.created_at).toLocaleString()}</small></div><button className="icon-delete" aria-label={`Delete suggestion from ${item.name}`} onClick={()=>deleteSuggestion(item.id)}>×</button></div><p>{item.suggestion}</p></article>)}</section>
+    : <section className="admin-panel"><div className="panel-head"><strong>Support tickets</strong><span>{tickets.filter(item=>item.status==="open").length} open</span></div>{tickets.length===0?<div className="empty">No support tickets have been sent yet.</div>:tickets.map(item=><article className={`ticket-card ${item.status}`} key={item.id}><div className="ticket-head"><div><div className="ticket-title-line"><strong>{item.subject}</strong><span className={`status-pill ${item.status}`}>{item.status}</span></div><small>{item.name} • {new Date(item.created_at).toLocaleString()}</small></div><button className="icon-delete" aria-label={`Delete ticket from ${item.name}`} onClick={()=>deleteTicket(item.id)}>×</button></div><p>{item.details}</p><button className="btn btn-secondary ticket-status" onClick={()=>updateTicket(item.id,item.status==="open"?"resolved":"open")}>{item.status==="open"?"Mark as resolved":"Reopen ticket"}</button></article>)}</section>}
   </div></main>;
 }

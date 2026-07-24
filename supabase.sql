@@ -55,3 +55,16 @@ create table if not exists public.suggestions (
 alter table public.suggestions enable row level security;
 revoke all on table public.suggestions from anon, authenticated;
 grant all on table public.suggestions to service_role;
+
+
+create table if not exists public.tickets (
+  id bigint generated always as identity primary key,
+  name text not null check (char_length(name) between 2 and 50),
+  subject text not null check (char_length(subject) between 3 and 100),
+  details text not null check (char_length(details) between 5 and 1500),
+  status text not null default 'open' check (status in ('open','resolved')),
+  created_at timestamptz not null default now()
+);
+alter table public.tickets enable row level security;
+revoke all on table public.tickets from anon, authenticated;
+grant all on table public.tickets to service_role;
