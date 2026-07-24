@@ -33,3 +33,14 @@ create table if not exists public.chat_messages (
 alter table public.chat_messages enable row level security;
 revoke all on table public.chat_messages from anon, authenticated;
 grant all on table public.chat_messages to service_role;
+
+create table if not exists public.announcements (
+  id bigint generated always as identity primary key,
+  title text not null check (char_length(title) between 2 and 80),
+  message text not null check (char_length(message) between 1 and 1000),
+  created_at timestamptz not null default now()
+);
+
+alter table public.announcements enable row level security;
+revoke all on table public.announcements from anon, authenticated;
+grant all on table public.announcements to service_role;

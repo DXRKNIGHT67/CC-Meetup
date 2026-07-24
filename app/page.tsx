@@ -82,6 +82,7 @@ export default function Home() {
           </button>
           <button className="btn btn-secondary" onClick={openCode}>Code</button>
           <button className="btn btn-secondary" onClick={() => router.push("/chat")}>Chat</button>
+          <button className="btn btn-secondary" onClick={() => router.push("/announcements")}>Announcements</button>
         </div>
       </section>
       <button className="secret-admin" aria-label="Admin access" onClick={() => { setModal("login"); setMessage(""); }} />

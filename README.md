@@ -1,23 +1,20 @@
-# CC Meetup
+# CC Meetup V2
 
-A Vercel-ready Next.js site with:
-- animated loading screen and custom CC logo
-- public name registration
-- public read-only meetup code
-- hidden bottom-right admin button
-- protected admin login
-- admin registration list and deletion
-- admin-editable meetup code
-- Supabase database storage
+Vercel-ready Next.js meetup site with:
+- Registration storage
+- Public meetup code
+- Public group chat
+- Public read-only announcements
+- Admin-only announcement posting and deletion
+- Private admin dashboard
 
-## Required environment variables
-Copy `.env.example` into `.env.local` for local development. On Vercel, add the same variables in Project Settings > Environment Variables.
+## Database update
+Run `supabase.sql` in Supabase SQL Editor. Existing tables are preserved because all statements use `if not exists`.
 
-Important: use `DXRKN!GHT` for `ADMIN_USERNAME`, but choose a new stronger password rather than reusing one shared in a chat.
-
-## Database
-Run `supabase.sql` inside your Supabase project's SQL Editor.
-
-## Chat update
-
-The public Chat button opens `/chat`. Messages are stored in the `chat_messages` Supabase table and refreshed every two seconds. Run the newest `supabase.sql` after updating the project.
+## Environment variables
+- `SUPABASE_URL`
+- `SUPABASE_SERVICE_ROLE_KEY`
+- `ADMIN_USERNAME`
+- `ADMIN_PASSWORD`
+- `SESSION_SECRET`
+- `NEXT_PUBLIC_MEETUP_TIME`
