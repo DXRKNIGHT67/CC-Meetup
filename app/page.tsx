@@ -68,6 +68,28 @@ export default function Home() {
     </div>
 
     <main className="page">
+      <a
+        className="social-link social-tiktok"
+        href="https://www.tiktok.com/@my.vrfs.journey?is_from_webapp=1&sender_device=pc"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Open my TikTok"
+      >
+        <span className="social-icon" aria-hidden="true">♪</span>
+        <span><small>Follow me on</small><strong>TikTok</strong></span>
+      </a>
+
+      <a
+        className="social-link social-youtube"
+        href="https://www.youtube.com/channel/UCEvzus3QRmBjRIbOQxiUHDA"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Open my YouTube channel"
+      >
+        <span><small>Subscribe on</small><strong>YouTube</strong></span>
+        <span className="social-icon youtube-icon" aria-hidden="true">▶</span>
+      </a>
+
       <section className="card">
         <div className="brand">
           <img src="/logo.svg" alt="CC Meetup logo" />
