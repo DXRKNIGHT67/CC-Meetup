@@ -18,3 +18,6 @@ Run `supabase.sql` in Supabase SQL Editor. Existing tables are preserved because
 - `ADMIN_PASSWORD`
 - `SESSION_SECRET`
 - `NEXT_PUBLIC_MEETUP_TIME`
+
+## Suggestions
+Visitors can privately send suggestions from `/suggestions`. Only authenticated admins can view or delete them in the Suggestions tab.

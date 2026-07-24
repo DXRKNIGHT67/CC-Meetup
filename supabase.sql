@@ -44,3 +44,14 @@ create table if not exists public.announcements (
 alter table public.announcements enable row level security;
 revoke all on table public.announcements from anon, authenticated;
 grant all on table public.announcements to service_role;
+
+create table if not exists public.suggestions (
+  id bigint generated always as identity primary key,
+  name text not null check (char_length(name) between 2 and 50),
+  suggestion text not null check (char_length(suggestion) between 3 and 1000),
+  created_at timestamptz not null default now()
+);
+
+alter table public.suggestions enable row level security;
+revoke all on table public.suggestions from anon, authenticated;
+grant all on table public.suggestions to service_role;
