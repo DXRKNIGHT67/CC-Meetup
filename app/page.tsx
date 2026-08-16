@@ -68,27 +68,53 @@ export default function Home() {
     </div>
 
     <main className="page">
-      <a
-        className="social-link social-tiktok"
-        href="https://www.tiktok.com/@my.vrfs.journey?is_from_webapp=1&sender_device=pc"
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Open my TikTok"
-      >
-        <span className="social-icon" aria-hidden="true">♪</span>
-        <span><small>Follow me on</small><strong>TikTok</strong></span>
-      </a>
+      <aside className="creator-social creator-left" aria-label="DXRKN!GHT social links">
+        <div className="creator-name">DXRKN!GHT</div>
+        <a
+          className="social-link"
+          href="https://www.tiktok.com/@my.vrfs.journey?is_from_webapp=1&sender_device=pc"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Open DXRKN!GHT TikTok"
+        >
+          <span className="social-icon" aria-hidden="true">♪</span>
+          <span><small>Follow on</small><strong>TikTok</strong></span>
+        </a>
+        <a
+          className="social-link"
+          href="https://www.youtube.com/channel/UCEvzus3QRmBjRIbOQxiUHDA"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Open DXRKN!GHT YouTube"
+        >
+          <span className="social-icon youtube-icon" aria-hidden="true">▶</span>
+          <span><small>Subscribe on</small><strong>YouTube</strong></span>
+        </a>
+      </aside>
 
-      <a
-        className="social-link social-youtube"
-        href="https://www.youtube.com/channel/UCEvzus3QRmBjRIbOQxiUHDA"
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Open my YouTube channel"
-      >
-        <span><small>Subscribe on</small><strong>YouTube</strong></span>
-        <span className="social-icon youtube-icon" aria-hidden="true">▶</span>
-      </a>
+      <aside className="creator-social creator-right" aria-label="DELUXE social links">
+        <div className="creator-name">DELUXE</div>
+        <a
+          className="social-link"
+          href="https://www.tiktok.com/@deluxe_vrfs?_r=1&_t=ZN-98wI6MxWGco"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Open DELUXE TikTok"
+        >
+          <span className="social-icon" aria-hidden="true">♪</span>
+          <span><small>Follow on</small><strong>TikTok</strong></span>
+        </a>
+        <a
+          className="social-link"
+          href="https://youtube.com/@deluxevrfs-h7h?si=uwy8mwLuJP9B5dWs"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Open DELUXE YouTube"
+        >
+          <span className="social-icon youtube-icon" aria-hidden="true">▶</span>
+          <span><small>Subscribe on</small><strong>YouTube</strong></span>
+        </a>
+      </aside>
 
       <section className="card">
         <div className="brand">

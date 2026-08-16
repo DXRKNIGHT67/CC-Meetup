@@ -1,25 +1,18 @@
-# CC Meetup V2
+# CC Meetup V6
 
-Vercel-ready Next.js meetup site with:
-- Registration storage
-- Public meetup code
-- Public group chat
-- Public read-only announcements
-- Admin-only announcement posting and deletion
-- Private admin dashboard
+Vercel-ready Next.js site with registration, meetup code, chat, announcements, suggestions, support tickets, two admin accounts, and creator social panels.
 
-## Database update
-Run `supabase.sql` in Supabase SQL Editor. Existing tables are preserved because all statements use `if not exists`.
+## Supabase
+Run the full `supabase.sql` file in Supabase SQL Editor. It uses `if not exists`, so rerunning it keeps existing rows.
 
-## Environment variables
+## Vercel environment variables
 - `SUPABASE_URL`
 - `SUPABASE_SERVICE_ROLE_KEY`
 - `ADMIN_USERNAME`
 - `ADMIN_PASSWORD`
+- `ADMIN2_USERNAME`
+- `ADMIN2_PASSWORD`
 - `SESSION_SECRET`
 - `NEXT_PUBLIC_MEETUP_TIME`
 
-## Suggestions
-Visitors can privately send suggestions from `/suggestions`. Only authenticated admins can view or delete them in the Suggestions tab.
-
-- private support ticket submission and admin ticket management
+Admin credentials stay in Vercel environment variables rather than public GitHub source code.
