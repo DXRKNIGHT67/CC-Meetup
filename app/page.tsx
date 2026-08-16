@@ -96,7 +96,7 @@ export default function Home() {
         <div className="creator-name">DELUXE</div>
         <a
           className="social-link"
-          href="https://www.tiktok.com/@deluxe_vrfs?_r=1&_t=ZN-98wI6MxWGco"
+          href="https://www.tiktok.com/@deluxe_vrfs"
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Open DELUXE TikTok"
@@ -106,7 +106,7 @@ export default function Home() {
         </a>
         <a
           className="social-link"
-          href="https://youtube.com/@deluxevrfs-h7h?si=uwy8mwLuJP9B5dWs"
+          href="https://www.youtube.com/@deluxevrfs-h7h"
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Open DELUXE YouTube"
