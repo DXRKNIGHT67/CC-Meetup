@@ -16,6 +16,10 @@ insert into public.settings (key, value)
 values ('meetup_code', 'No code has been posted yet')
 on conflict (key) do nothing;
 
+insert into public.settings (key, value)
+values ('meetup_time', 'Time to be announced')
+on conflict (key) do nothing;
+
 create table if not exists public.chat_messages (
   id bigint generated always as identity primary key,
   name text not null check (char_length(name) between 2 and 30),

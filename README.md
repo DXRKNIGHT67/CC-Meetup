@@ -16,3 +16,7 @@ Run the full `supabase.sql` file in Supabase SQL Editor. It uses `if not exists`
 - `NEXT_PUBLIC_MEETUP_TIME`
 
 Admin credentials stay in Vercel environment variables rather than public GitHub source code.
+
+
+## Admin-editable meetup time
+Both configured admin accounts can change the homepage meetup time from the **Meetup Time** tab in the admin dashboard. The value is stored in the `settings` table as `meetup_time`, so changing it does not require a Vercel redeploy.

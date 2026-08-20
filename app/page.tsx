@@ -16,10 +16,14 @@ export default function Home() {
   const [publicCode, setPublicCode] = useState("No code has been posted yet");
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
-  const meetupTime = process.env.NEXT_PUBLIC_MEETUP_TIME || "Time to be announced";
+  const [meetupTime, setMeetupTime] = useState(process.env.NEXT_PUBLIC_MEETUP_TIME || "Time to be announced");
 
   useEffect(() => {
     const timer = window.setTimeout(() => setLoading(false), 1800);
+    fetch("/api/time", { cache: "no-store" })
+      .then(response => response.json())
+      .then(data => { if (data.time) setMeetupTime(data.time); })
+      .catch(() => {});
     return () => window.clearTimeout(timer);
   }, []);
 
